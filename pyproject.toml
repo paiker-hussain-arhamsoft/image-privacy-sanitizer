@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "image-privacy-sanitizer"
+version = "0.1.0"
+description = "Privacy-focused image sanitizer with metadata stripping and pixel perturbation."
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110.0",
+    "python-multipart>=0.0.9",
+    "uvicorn[standard]>=0.29.0",
+    "pillow>=10.0.0",
+    "numpy>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = ["app"]

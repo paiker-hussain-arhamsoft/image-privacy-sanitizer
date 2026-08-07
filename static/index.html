@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image Privacy Sanitizer</title>
+  <style>
+    :root { --bg: #0b0c10; --panel: #1f2833; --text: #c5c6c7; --accent: #66fcf1; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { background: var(--panel); padding: 2rem; border-radius: 12px; max-width: 520px; width: 90%; box-shadow: 0 0 24px rgba(0,0,0,.4); }
+    h1 { color: var(--accent); margin-top: 0; font-size: 1.5rem; }
+    label { display: block; margin-top: .8rem; font-size: .9rem; }
+    input, select { width: 100%; padding: .5rem; margin-top: .25rem; background: #111; color: #fff; border: 1px solid #444; border-radius: 6px; box-sizing: border-box; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .checks { display: flex; gap: 1.5rem; margin-top: .6rem; }
+    .checks label { display: inline-flex; align-items: center; gap: .4rem; }
+    .checks input { width: auto; }
+    button { width: 100%; margin-top: 1.5rem; padding: .75rem; background: var(--accent); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button:hover { opacity: .9; }
+    .note { font-size: .8rem; color: #888; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Image Privacy Sanitizer</h1>
+    <p>Strips metadata, resets file structure, and applies subtle pixel perturbation.</p>
+    <form action="/sanitize" method="post" enctype="multipart/form-data">
+      <label>Choose image
+        <input type="file" name="image" accept="image/*" required />
+      </label>
+
+      <div class="row">
+        <label>Output format
+          <select name="output_format">
+            <option value="png" selected>PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="webp">WebP</option>
+          </select>
+        </label>
+        <label>Quality / compression
+          <input type="number" name="quality" min="1" max="100" value="92" />
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Noise strength
+          <input type="number" name="noise_strength" step="0.1" min="0" max="10" value="2.0" />
+        </label>
+        <label>Axis offset (pixels)
+          <input type="number" name="axis_offset" min="0" max="5" value="1" />
+        </label>
+      </div>
+
+      <div class="checks">
+        <label><input type="checkbox" name="apply_noise" value="true" checked /> Add micro-noise</label>
+        <label><input type="checkbox" name="apply_offset" value="true" checked /> Axis offset</label>
+      </div>
+
+      <div class="checks">
+        <label><input type="checkbox" name="use_mat2" value="true" /> MAT2 deep scrub</label>
+        <label><input type="checkbox" name="use_exiftool" value="true" /> ExifTool strip</label>
+      </div>
+
+      <button type="submit">Sanitize image</button>
+    </form>
+    <p class="note">MAT2/ExifTool are used when installed on the server. Intended for privacy and forensic hygiene; not for targeted visible-watermark removal.</p>
+  </div>
+</body>
+</html>
