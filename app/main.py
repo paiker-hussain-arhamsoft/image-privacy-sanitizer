@@ -35,6 +35,8 @@ async def sanitize_image(
     axis_offset: Annotated[int, Form()] = 1,
     apply_noise: Annotated[bool, Form()] = True,
     apply_offset: Annotated[bool, Form()] = True,
+    use_mat2: Annotated[bool, Form()] = False,
+    use_exiftool: Annotated[bool, Form()] = False,
 ) -> Response:
     contents = await image.read()
     options = SanitizeOptions(
@@ -44,6 +46,8 @@ async def sanitize_image(
         axis_offset=axis_offset,
         apply_noise=apply_noise,
         apply_offset=apply_offset,
+        use_mat2=use_mat2,
+        use_exiftool=use_exiftool,
     )
     cleaned = sanitize(contents, options)
 

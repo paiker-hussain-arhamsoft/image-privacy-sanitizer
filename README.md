@@ -27,8 +27,23 @@ Then open `http://localhost:8000` and upload an image.
 - `noise_strength` – Gaussian noise sigma in pixel values (default: `2.0`)
 - `axis_offset` – max pixel shift (default: `1`)
 - `apply_noise` / `apply_offset` – toggles (default: `true`)
+- `use_mat2` / `use_exiftool` – optional external metadata scrubbers (default: `false`)
 
 The response is the cleaned image as a downloadable file.
+
+## Optional external cleaners
+
+For stronger structural metadata removal, install MAT2 and ExifTool and enable them via the UI or API:
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install -y mat2 libimage-exiftool-perl
+
+# macOS
+brew install mat2 exiftool
+```
+
+When enabled, the pipeline runs them in Stage 1 before re-encoding and pixel perturbation.
 
 ## Scope
 

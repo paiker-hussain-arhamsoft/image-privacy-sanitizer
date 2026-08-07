@@ -56,9 +56,14 @@
         <label><input type="checkbox" name="apply_offset" value="true" checked /> Axis offset</label>
       </div>
 
+      <div class="checks">
+        <label><input type="checkbox" name="use_mat2" value="true" /> MAT2 deep scrub</label>
+        <label><input type="checkbox" name="use_exiftool" value="true" /> ExifTool strip</label>
+      </div>
+
       <button type="submit">Sanitize image</button>
     </form>
-    <p class="note">Intended for privacy and forensic hygiene. Not designed to remove visible watermarks or defeat content credentials adversarially.</p>
+    <p class="note">MAT2/ExifTool are used when installed on the server. Intended for privacy and forensic hygiene; not for targeted visible-watermark removal.</p>
   </div>
 </body>
 </html>

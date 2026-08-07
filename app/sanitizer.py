@@ -17,6 +17,8 @@ from typing import Literal
 import numpy as np
 from PIL import Image
 
+from app.integrations import apply_external_cleaners
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,6 +30,8 @@ class SanitizeOptions:
     axis_offset: int = 1
     apply_noise: bool = True
     apply_offset: bool = True
+    use_mat2: bool = False
+    use_exiftool: bool = False
 
 
 def _strip_metadata(img: Image.Image) -> Image.Image:
@@ -90,7 +94,15 @@ def sanitize(
     options = options or SanitizeOptions()
 
     with Image.open(io.BytesIO(data)) as src:
+        ext = (src.format or "bin").lower()
         # Copy the raw pixel canvas to drop file/container structure.
+        img = src.copy()
+
+    # Stage 1: optional external structural cleaners (MAT2/ExifTool).
+    data = apply_external_cleaners(data, ext, options.use_mat2, options.use_exiftool)
+
+    # Reload after external cleaners in case they re-encoded the file.
+    with Image.open(io.BytesIO(data)) as src:
         img = src.copy()
 
     img = _strip_metadata(img)
